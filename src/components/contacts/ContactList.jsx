@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
 import * as css from './contacts.styled';
+import { useDispatch } from 'react-redux'
+import { remove } from '../../redux/contact/contactSlice';
 
-export const ContactList = ({ data, deleteContact }) => {
+
+
+
+export const ContactList = ({ data }) => {
+    const dispatch = useDispatch();
+
     return (
         <css.UlContactList>
             {data.map((contact) => (
                 <li key={contact.id}>
                     {contact.name}: {contact.number}
-                    <button type='button' onClick={() => deleteContact(contact.id)}>Delete</button>
+                    <button type='button' onClick={() => dispatch(remove(contact.id))}>Delete</button>
                 </li>))}
         </css.UlContactList>
     )
@@ -22,5 +29,4 @@ ContactList.propTypes = {
             number: PropTypes.string.isRequired,
         })
     ).isRequired,
-    deleteContact: PropTypes.func.isRequired,
 };

@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import * as css from './contacts.styled';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const ContactForm = ({ addContactList }) => {
+
+import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux'
+import { add } from '../../redux/contact/contactSlice';
+
+const ContactForm = () => {
+    const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
 
     const addContact = () => {
 
         const contact = {
+            id: nanoid(),
             name,
             number,
         }
@@ -18,10 +25,11 @@ const ContactForm = ({ addContactList }) => {
             Notify.failure(`Enter the contact's name and phone number.`);
             return;
         }
-
-        addContactList(contact);
+        dispatch(add(contact))
         setName('');
         setNumber('');
+
+        return contact;
 
     }
 
@@ -59,7 +67,13 @@ const ContactForm = ({ addContactList }) => {
 
 
 ContactForm.propTypes = {
-    addContactList: PropTypes.func.isRequired,
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            number: PropTypes.string.isRequired,
+        })
+    ),
 };
 
 export default ContactForm;
