@@ -1,28 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ContactList } from './contacts/ContactList';
 import { Filter } from './contacts/Filter';
 import ContactForm from './contacts/ContactForm';
 import * as css from './contacts/contacts.styled';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { filters } from '../redux/contact/contactSlice';
 
 
 
 const App = () => {
   const contacts = useSelector((state) => state.contact.contacts)
-  const [filter, setFilter] = useState('');
+  const filterValue = useSelector((state) => state.contact.filter)
+  const dispatch = useDispatch();
+
 
   const changeFilter = (e) => {
-    setFilter(e.currentTarget.value)
+    dispatch(filters(e.currentTarget.value))
   }
 
-
   const resultFilter = () => {
-    if (!filter) {
+    if (!filterValue) {
       return contacts;
     }
 
     return contacts.filter(contact => (
-      contact.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+      contact.name.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase())
     ));
   }
 

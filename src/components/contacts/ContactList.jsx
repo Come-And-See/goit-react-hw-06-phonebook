@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux'
 import { remove } from '../../redux/contact/contactSlice';
 
 
-
-
 export const ContactList = ({ data }) => {
     const dispatch = useDispatch();
 
