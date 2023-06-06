@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import * as css from './contacts.styled';
+import * as css from '../All.styled';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
-
 import { nanoid } from 'nanoid';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { add } from '../../redux/contact/contactSlice';
 
 const ContactForm = () => {
+    const contacts = useSelector((state) => state.contact.contacts)
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
@@ -25,12 +24,17 @@ const ContactForm = () => {
             Notify.failure(`Enter the contact's name and phone number.`);
             return;
         }
-        dispatch(add(contact))
-        setName('');
-        setNumber('');
 
-        return contact;
+        const onDuplicate = contacts.some(contact => contact.name === name);
 
+        if (onDuplicate) {
+            Notify.failure(`${name} is already in contacts.`);
+
+        } else {
+            dispatch(add(contact))
+            setName('');
+            setNumber('');
+        }
     }
 
 
@@ -65,15 +69,9 @@ const ContactForm = () => {
 
 }
 
-
 ContactForm.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            number: PropTypes.string.isRequired,
-        })
-    ),
+    contacts: PropTypes.array,
+    dispatch: PropTypes.func,
 };
 
 export default ContactForm;
