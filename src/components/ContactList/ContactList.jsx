@@ -1,7 +1,7 @@
 import * as css from '../All.styled';
 import { useDispatch, useSelector } from 'react-redux'
 import { remove } from '../../redux/contact/contactSlice';
-import PropTypes from 'prop-types';
+
 
 export const ContactList = () => {
     const contacts = useSelector((state) => state.contact.contacts)
@@ -24,8 +24,4 @@ export const ContactList = () => {
 
 }
 
-ContactList.propTypes = {
-    contacts: PropTypes.array,
-    filterValue: PropTypes.string,
-};
 

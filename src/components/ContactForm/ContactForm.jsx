@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import * as css from '../All.styled';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { nanoid } from 'nanoid';
@@ -69,9 +68,6 @@ const ContactForm = () => {
 
 }
 
-ContactForm.propTypes = {
-    contacts: PropTypes.array,
-    dispatch: PropTypes.func,
-};
+
 
 export default ContactForm;
